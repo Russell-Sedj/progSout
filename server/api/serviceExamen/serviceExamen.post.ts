@@ -12,15 +12,8 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  if (
-    body.nom &&
-    body.prenom &&
-    body.email &&
-    body.password &&
-    body.telephone
-    // && body.service
-  ) {
-    await prisma.etudiant
+  if (body.email && body.password) {
+    await prisma.serviceExamen
       .create({
         data: input_data,
       })
@@ -36,8 +29,7 @@ export default defineEventHandler(async (event) => {
   } else {
     return createError({
       statusCode: 400,
-      statusMessage:
-        "Bad Request: Missing nom or prenom or email or password or telephone or service",
+      statusMessage: "Bad Request: Missing Parameter",
     });
   }
 
