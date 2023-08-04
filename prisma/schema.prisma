@@ -57,15 +57,3 @@ model service_examen {
   password   String
   etudiant   etudiant[]
 }
-
-// model Jury{
-//   id String @id @default(cuid())
-//   created_at DateTime  @default(now()) @db.DateTime(0)
-//   updated_at DateTime? @updatedAt
-
-//   nom String
-//   prenom String
-//   email String @unique
-//   telephone Int  
-//   
-// }
