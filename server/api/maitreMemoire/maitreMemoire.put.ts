@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
   }
 
   if (body.id) {
-    request = await prisma.etudiant.update({
+    request = await prisma.maitreMemoire.update({
       where: {
         id: body.id,
       },

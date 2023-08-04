@@ -17,14 +17,14 @@ model etudiant {
 
   nom       String
   prenom    String
-  email     String          @unique
+  email     String         @unique
   password  String
   telephone Int
-  service   service_examen? @relation(fields: [service_examenId], references: [id])
+  service   serviceExamen? @relation(fields: [serviceExamenId], references: [id])
 
   filiere            String?
   theme              String?
-  encadrant          maitre_memoire? @relation(fields: [maitre_memoireId], references: [id])
+  maitre             maitreMemoire? @relation(fields: [maitreMemoireId], references: [id])
   date_presentation  DateTime?
   salle_presentation String?
   verdict            String?
@@ -34,26 +34,29 @@ model etudiant {
   theme_accepte  Boolean?
   valide_UE      Boolean?
 
-  service_examenId String?
-  maitre_memoireId String?
+  serviceExamenId String?
+  maitreMemoireId String?
 }
 
-model maitre_memoire {
+model maitreMemoire {
   id         String    @id @default(cuid())
   created_at DateTime  @default(now()) @db.DateTime(0)
   updated_at DateTime? @updatedAt
 
-  nom      String
-  prenom   String
-  email    String     @unique
+  nom       String
+  prenom    String
+  email     String? @unique
+  telephone Int?
+
   etudiant etudiant[]
 }
 
-model service_examen {
-  id         String     @id @default(cuid())
-  created_at DateTime   @default(now()) @db.DateTime(0)
-  updated_at DateTime?  @updatedAt
-  email      String     @unique
+model serviceExamen {
+  id         String    @id @default(cuid())
+  created_at DateTime  @default(now()) @db.DateTime(0)
+  updated_at DateTime? @updatedAt
+  email      String    @unique
   password   String
-  etudiant   etudiant[]
+
+  etudiant etudiant[]
 }

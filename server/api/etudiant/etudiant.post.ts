@@ -3,7 +3,14 @@ const prisma = new PrismaClient();
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
-  let request = body;
+  let request = null;
+
+  const input_data: any = {};
+  for (const key in body) {
+    if (body.hasOwnProperty(key)) {
+      input_data[key] = body[key];
+    }
+  }
 
   if (
     body.nom &&
@@ -15,23 +22,22 @@ export default defineEventHandler(async (event) => {
   ) {
     await prisma.etudiant
       .create({
-        data: {
-          nom: body.nom,
-          prenom: body.prenom,
-          telephone: body.telephone,
-          email: body.email,
-          password: body.password,
-          // service: body.service,
-        },
+        data: input_data,
       })
       .then((response) => {
         request = response;
+      })
+      .catch((e) => {
+        return createError({
+          statusCode: 500,
+          statusMessage: "Internal Server Error.\n" + e,
+        });
       });
   } else {
     return createError({
       statusCode: 400,
       statusMessage:
-        "Missing Parameters: nom, prenom, email, password, telephone, service",
+        "Bad Request: Missing nom or prenom or email or password or telephone or service",
     });
   }
 
