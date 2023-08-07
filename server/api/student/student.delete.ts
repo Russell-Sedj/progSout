@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   let error = null;
 
   if (body.id) {
-    await prisma.etudiant
+    await prisma.student
       .delete({
         where: {
           id: body.id,

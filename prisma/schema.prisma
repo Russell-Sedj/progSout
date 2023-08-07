@@ -10,53 +10,75 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model etudiant {
+model student {
   id         String    @id @default(cuid())
   created_at DateTime  @default(now()) @db.DateTime(0)
   updated_at DateTime? @updatedAt
 
-  nom       String
-  prenom    String
-  email     String         @unique
-  password  String
+  lastname  String
+  firstname String
+  email     String @unique
+  password  String @default(cuid())
   telephone Int
-  service   serviceExamen? @relation(fields: [serviceExamenId], references: [id])
+  address   String
 
-  filiere            String?
-  theme              String?
-  maitre             maitreMemoire? @relation(fields: [maitreMemoireId], references: [id])
-  date_presentation  DateTime?
-  salle_presentation String?
-  verdict            String?
+  direction    direction?    @relation(fields: [directionId], references: [id])
+  field        String?
+  master       master?       @relation(fields: [masterId], references: [id])
+  internMaster internMaster? @relation(fields: [internMasterId], references: [id])
+  subject      String?
 
-  scolarite_paye Boolean?
-  memoire_depose Boolean?
-  theme_accepte  Boolean?
-  valide_UE      Boolean?
+  presentation_date DateTime?
+  presentation_room String?
+  final_decision    String?
 
-  serviceExamenId String?
-  maitreMemoireId String?
+  is_profil_information_complete Boolean?
+  school_fees                    Boolean?
+  is_presentation_finished       Boolean?
+  is_subject_validated           Boolean?
+  is_UE_validated                Boolean?
+  is_connected                   Boolean?
+  stay_connected                 Boolean?
+
+  directionId    String?
+  masterId       String?
+  internMasterId String?
 }
 
-model maitreMemoire {
+model master {
   id         String    @id @default(cuid())
   created_at DateTime  @default(now()) @db.DateTime(0)
   updated_at DateTime? @updatedAt
 
-  nom       String
-  prenom    String
-  email     String? @unique
-  telephone Int?
+  lasttname String
+  firstname String
+  email     String @unique
+  telephone Int
 
-  etudiant etudiant[]
+  student student[]
 }
 
-model serviceExamen {
+model internMaster {
+  id         String    @id @default(cuid())
+  created_at DateTime  @default(now()) @db.DateTime(0)
+  updated_at DateTime? @updatedAt
+
+  lastname     String
+  firstname    String
+  email        String    @unique
+  telephone    Int
+  company_name String
+  student      student[]
+}
+
+model direction {
   id         String    @id @default(cuid())
   created_at DateTime  @default(now()) @db.DateTime(0)
   updated_at DateTime? @updatedAt
   email      String    @unique
   password   String
+  connected  String?
+  limit_date DateTime
 
-  etudiant etudiant[]
+  student student[]
 }

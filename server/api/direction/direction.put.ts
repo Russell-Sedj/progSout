@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
   }
 
   if (body.id) {
-    request = await prisma.maitreMemoire.update({
+    request = await prisma.direction.update({
       where: {
         id: body.id,
       },

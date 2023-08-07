@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
   }
 
   if (body.id) {
-    request = await prisma.serviceExamen.update({
+    request = await prisma.student.update({
       where: {
         id: body.id,
       },

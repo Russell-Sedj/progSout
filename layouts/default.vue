@@ -61,12 +61,11 @@
         </div>
       </aside> -->
 
-    <main>
+    <main class="h-full">
       <slot />
     </main>
-
     <footer
-      class="flex justify-between items-center text-xs px-2 h-12 relative bottom-0 w-full z-10"
+      class="flex justify-between items-center text-xs px-2 h-48 relative bottom-0 w-full z-10"
     >
       <p>&copy;2021 Easy Manager. All rights reserved.</p>
       <div>

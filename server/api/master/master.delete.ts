@@ -4,18 +4,14 @@ const prisma = new PrismaClient();
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   let request = null;
+  let error = null;
 
-  const input_data: any = {};
-  for (const key in body) {
-    if (body.hasOwnProperty(key)) {
-      input_data[key] = body[key];
-    }
-  }
-
-  if (body.email && body.password) {
-    await prisma.serviceExamen
-      .create({
-        data: input_data,
+  if (body.id) {
+    await prisma.master
+      .delete({
+        where: {
+          id: body.id,
+        },
       })
       .then((response) => {
         request = response;
@@ -29,9 +25,8 @@ export default defineEventHandler(async (event) => {
   } else {
     return createError({
       statusCode: 400,
-      statusMessage: "Bad Request: Missing Parameter",
+      statusMessage: "Bad Request: Missing ID",
     });
   }
-
   return request;
 });
