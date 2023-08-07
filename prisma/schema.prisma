@@ -19,11 +19,11 @@ model student {
   firstname String
   email     String @unique
   password  String @default(cuid())
-  telephone Int
+  telephone String
   address   String
+  field     String
 
   direction    direction?    @relation(fields: [directionId], references: [id])
-  field        String?
   master       master?       @relation(fields: [masterId], references: [id])
   internMaster internMaster? @relation(fields: [internMasterId], references: [id])
   subject      String?

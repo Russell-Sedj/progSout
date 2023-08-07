@@ -6,7 +6,7 @@
   >
     <div class="m-3 md:w-3/4 lg:w-2/4">
       <h1 class="text-gray-700 font-bold text-2xl mb-6">Inscription</h1>
-      <form @submit.prevent="addStudent">
+      <form @submit.prevent="addStudent(student)">
         <div class="grid md:grid-cols-2 md:gap-6">
           <div class="relative z-0 w-full mb-8 group">
             <input
@@ -99,6 +99,7 @@
             id="floating_filiere"
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
+            required
             v-model="student.field"
           />
           <label
@@ -114,61 +115,25 @@
           Valider
         </button>
       </form>
-      <div>{{ student }}</div>
     </div>
   </div>
 </template>
 
 <script setup>
-// const lastname = ref("");
-// const firstname = ref("");
-// const email = ref("");
-// const telephone = ref(null);
-// const address = ref("");
-// const field = ref("");
-
 const student = ref({
-  lastname: "",
-  firstname: "",
-  email: "",
+  lastname: null,
+  firstname: null,
+  email: null,
   telephone: null,
-  address: "",
-  field: "",
+  address: null,
+  field: null,
 });
 
-async function addStudent() {
-  let added = null;
-  if (
-    email.value &&
-    firstname.value &&
-    lastname.value &&
-    telephone.value &&
-    address.value
-  )
-    added = await $fetch("/api/student/student", {
-      method: "POST",
-
-      body: {
-        firstname: firstname.value,
-        lastname: lastname.value,
-        email: email.value,
-        telephone: telephone.value,
-        address: address.value,
-        field: field.value,
-
-        // lastname: "Drago",
-        // firstname: "pioo",
-        // email: "greadu@",
-        // telephone: 12345,
-        // address: "zopah",
-      },
-    });
-  if (added) {
-    console.log("it addedddd:", added);
-  }
-  if (!added) {
-    console.log("noooo no:", added);
-  }
+async function addStudent(student) {
+  await $fetch("/api/student/", {
+    method: "POST",
+    body: student,
+  });
 }
 </script>
 
