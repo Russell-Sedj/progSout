@@ -162,7 +162,7 @@ const address = ref("");
 async function addUser() {
   let addedUser = null;
   if (lastname && firstname && email && telephone && address) {
-    addedUser = await useFetch("/api/student/student", {
+    addedUser = await useFetch("/api/student/", {
       method: "post",
       body: {
         lastname: lastname.value,

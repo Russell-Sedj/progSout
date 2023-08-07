@@ -67,10 +67,10 @@
 <script setup>
 const emailStudent = ref("");
 const passwordStudent = ref("");
-const stay_connected = ref(false);
+const stay_connected = ref();
 
 const student_list = ref(null);
-student_list.value = await $fetch("/api/student/student");
+student_list.value = await $fetch("/api/student/");
 
 const handleSubmit = async () => {
   if (emailStudent.value && passwordStudent.value) {

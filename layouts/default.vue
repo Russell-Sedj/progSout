@@ -10,7 +10,7 @@
           <nuxt-link to="/">Acceuil</nuxt-link>
         </li>
         <li class="mx-2">
-          <nuxt-link to="/login">Connexion</nuxt-link>
+          <nuxt-link to="/loginStudent">Connexion</nuxt-link>
         </li>
         <li class="mx-2">
           <nuxt-link to="/about">A propos</nuxt-link>
@@ -100,7 +100,7 @@ const nav_items = [
   },
   {
     name: "Connexion",
-    link: "/login",
+    link: "/loginStudent",
   },
   {
     name: "A propos",

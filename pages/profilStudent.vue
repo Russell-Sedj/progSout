@@ -163,7 +163,7 @@
 </template>
 
 <script setup>
-const student_list = await $fetch("/api/student/student");
+const student_list = await $fetch("/api/student/");
 const id = ref("");
 const lastname = ref("");
 const firstname = ref("");
@@ -188,7 +188,8 @@ master.value = student_list[0].master;
 intern_master.value = student_list[0].intern_master;
 
 const editStudent = async () => {
-  await $fetch("/api/student/student", {
+  let req = null;
+  req = await $fetch("/api/student/", {
     method: "put",
     body: {
       id: id.value,
