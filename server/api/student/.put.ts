@@ -60,16 +60,20 @@ export default defineEventHandler(async (event) => {
     console.log(input_data);
     await prisma.student
       .update({
-        where: { id: input_data },
+        where: { id: input_data.id },
         data: input_data,
       })
       .then((response) => {
         request = response;
       })
       .catch((e) => {
+        console.log("Internal Server Error:\n" + e.message);
         return { message: "Internal Server Error:\n" + e.message };
       });
   } else {
+    console.log(
+      "Bad Request: Missing nom or prenom or email or telephone or field"
+    );
     return {
       message:
         "Bad Request: Missing nom or prenom or email or password or telephone or field",

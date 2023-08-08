@@ -29,11 +29,14 @@ export default defineEventHandler(async (event) => {
         request = response;
       })
       .catch((e) => {
+        console.log("Internal Server Error:\n" + e.message);
         return { message: "Internal Server Error:\n" + e.message };
       });
   } else {
+    console.log("Bad Request: Missing nom or prenom or email or telephone");
     return {
-      message: "Bad Request: Missing nom or prenom or email or telephone",
+      message:
+        "Bad Request: Missing nom or prenom or email or password or telephone",
     };
   }
   return {

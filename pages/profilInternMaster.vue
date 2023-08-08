@@ -1,14 +1,10 @@
-<!-- https://flowbite.com/docs/components/forms -->
-
 <template>
-  <div
-    class="md:flex md:justify-center md:items-center mt-11 mb-9 md:mb-4 lg:mt-20"
-  >
+  <div class="md:flex md:justify-center md:items-center mt-11 mb-4 lg:mt-20">
     <div class="m-3 md:w-3/4 lg:w-2/4">
       <h1 class="text-gray-700 font-bold text-2xl mb-6">
-        Inscription Maitre de Stage
+        Profil Maitre de Stage
       </h1>
-      <form @submit.prevent="addInternMaster(internMaster)">
+      <form @submit.prevent="editInternMaster(intern_master)">
         <div class="grid md:grid-cols-2 md:gap-6">
           <div class="relative z-0 w-full mb-8 group">
             <input
@@ -18,7 +14,7 @@
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
-              v-model="internMaster.lastname"
+              v-model="intern_master.lastname"
             />
             <label
               for="floating_last_name"
@@ -34,7 +30,7 @@
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
-              v-model="internMaster.firstname"
+              v-model="intern_master.firstname"
             />
             <label
               for="floating_first_name"
@@ -51,7 +47,7 @@
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             required
-            v-model="internMaster.email"
+            v-model="intern_master.email"
           />
           <label
             for="floating_email"
@@ -59,7 +55,6 @@
             >Adresse email</label
           >
         </div>
-
         <div class="relative z-0 w-full mb-8 group">
           <input
             type="tel"
@@ -68,7 +63,7 @@
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             required
-            v-model="internMaster.telephone"
+            v-model="intern_master.telephone"
           />
           <label
             for="floating_phone"
@@ -84,7 +79,7 @@
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             required
-            v-model="internMaster.company_name"
+            v-model="intern_master.company_name"
           />
           <label
             for="floating_company_name"
@@ -106,41 +101,46 @@
 
 <script setup>
 useHead({
-  title: "Inscription Maitre de Stage",
+  title: "Profil Maitre de Stage",
   meta: [
     {
       name: "description",
-      content: "Inscription Maitre de Stage",
+      content: "Profil Maitre de Stage",
     },
   ],
 });
 
-const internMaster = ref({
-  firstname: null,
-  lastname: null,
-  email: null,
-  telephone: null,
-  company_name: null,
+const intern_master_list = await $fetch("/api/internMaster/");
+const intern_master = ref({
+  id: intern_master_list[0].id,
+  lastname: intern_master_list[0].lastname,
+  firstname: intern_master_list[0].firstname,
+  email: intern_master_list[0].email,
+  telephone: intern_master_list[0].telephone,
+  company_name: intern_master_list[0].company_name,
 });
 
-async function addInternMaster(internMaster) {
+async function editInternMaster(intern_master) {
   let req = null;
 
   if (
-    internMaster.firstname &&
-    internMaster.lastname &&
-    internMaster.email &&
-    internMaster.telephone &&
-    internMaster.company_name
+    intern_master.id &&
+    intern_master.firstname &&
+    intern_master.lastname &&
+    intern_master.email &&
+    intern_master.telephone &&
+    intern_master.company_name
   ) {
     req = await $fetch("/api/internMaster/", {
-      method: "POST",
-      body: internMaster,
+      method: "PUT",
+      body: intern_master,
     });
     if (req) {
-      alert("Maitre de Stage ajouté avec succès");
+      alert("Profil modifié avec succès");
+    } else if (req.message) {
+      alert("Erreur lors de la modification du profil");
     } else {
-      alert("Erreur lors de l'ajout du Maitre de Stage");
+      alert("Erreur lors de la modification du profil");
     }
   } else {
     alert("Veuillez remplir tous les champs");

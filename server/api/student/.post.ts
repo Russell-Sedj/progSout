@@ -86,9 +86,13 @@ export default defineEventHandler(async (event) => {
         request = response;
       })
       .catch((e) => {
+        console.log("Internal Server Error:\n" + e.message);
         return { message: "Internal Server Error:\n" + e.message };
       });
   } else {
+    console.log(
+      "Bad Request: Missing nom or prenom or email or telephone or field"
+    );
     return {
       message:
         "Bad Request: Missing nom or prenom or email or password or telephone or field",
