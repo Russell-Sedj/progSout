@@ -12,39 +12,31 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  if (body.id) {
-    request = await prisma.master.update({
-      where: {
-        id: body.id,
-      },
-      data: input_data,
-    });
+  if (
+    input_data.id &&
+    input_data.firstname &&
+    input_data.lastname &&
+    input_data.email &&
+    input_data.telephone
+  ) {
+    console.log(input_data);
+    await prisma.master
+      .update({
+        where: { id: input_data },
+        data: input_data,
+      })
+      .then((response) => {
+        request = response;
+      })
+      .catch((e) => {
+        return { message: "Internal Server Error:\n" + e.message };
+      });
   } else {
-    return createError({
-      statusCode: 400,
-      statusMessage: "Some parameters are missing",
-    });
+    return {
+      message: "Bad Request: Missing nom or prenom or email or telephone",
+    };
   }
-
-  return request;
+  return {
+    request: request,
+  };
 });
-
-/* 
-const data = {};
-  for (const key in body) {
-    if (body.hasOwnProperty(key)) {
-      data[key] = body[key];
-    }
-  }
-
-  let user;
-
-  if (data.id) {
-    user = await prisma.users.update({
-      where: {
-        id: data.id,
-      },
-      data,
-    });
-  }
-   */

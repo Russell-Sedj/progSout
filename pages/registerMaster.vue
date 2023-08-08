@@ -6,9 +6,9 @@
   >
     <div class="m-3 md:w-3/4 lg:w-2/4">
       <h1 class="text-gray-700 font-bold text-2xl mb-6">
-        Inscription Etudiant
+        Inscription Maitre Memoire
       </h1>
-      <form @submit.prevent="addStudent(student)">
+      <form @submit.prevent="addMaster(master)">
         <div class="grid md:grid-cols-2 md:gap-6">
           <div class="relative z-0 w-full mb-8 group">
             <input
@@ -18,7 +18,7 @@
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
-              v-model="student.lastname"
+              v-model="master.lastname"
             />
             <label
               for="floating_last_name"
@@ -34,7 +34,7 @@
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
-              v-model="student.firstname"
+              v-model="master.firstname"
             />
             <label
               for="floating_first_name"
@@ -51,7 +51,7 @@
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             required
-            v-model="student.email"
+            v-model="master.email"
           />
           <label
             for="floating_email"
@@ -60,56 +60,23 @@
           >
         </div>
 
-        <div class="grid md:grid-cols-2 md:gap-6">
-          <div class="relative z-0 w-full mb-8 group">
-            <input
-              type="tel"
-              name="floating_phone"
-              id="floating_phone"
-              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-              v-model="student.telephone"
-            />
-            <label
-              for="floating_phone"
-              class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
-              >Numero de telephone</label
-            >
-          </div>
-
-          <div class="relative z-0 w-full mb-8 group">
-            <input
-              type="text"
-              name="floating_address"
-              id="floating_address"
-              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              v-model="student.address"
-            />
-            <label
-              for="floating_address"
-              class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
-              >Adresse</label
-            >
-          </div>
-        </div>
         <div class="relative z-0 w-full mb-8 group">
           <input
-            type="text"
-            name="floating_filiere"
-            id="floating_filiere"
+            type="tel"
+            name="floating_phone"
+            id="floating_phone"
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             required
-            v-model="student.field"
+            v-model="master.telephone"
           />
           <label
-            for="floating_filiere"
+            for="floating_phone"
             class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
-            >Filiere</label
+            >Numero de telephone</label
           >
         </div>
+
         <button
           type="submit"
           class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
@@ -122,34 +89,25 @@
 </template>
 
 <script setup>
-const student = ref({
+const master = ref({
   firstname: null,
   lastname: null,
   email: null,
   telephone: null,
-  address: null,
-  field: null,
 });
 
-async function addStudent(student) {
+async function addMaster(master) {
   let req = null;
 
-  if (
-    student.firstname &&
-    student.lastname &&
-    student.email &&
-    student.telephone &&
-    student.address &&
-    student.field
-  ) {
-    req = await $fetch("/api/student/", {
+  if (master.firstname && master.lastname && master.email && master.telephone) {
+    req = await $fetch("/api/master/", {
       method: "POST",
-      body: student,
+      body: master,
     });
     if (req) {
-      alert("Etudiant ajouté avec succès");
+      alert("Maitre Memoire ajouté avec succès");
     } else {
-      alert("Erreur lors de l'ajout de l'étudiant");
+      alert("Erreur lors de l'ajout du Maitre Memoire");
     }
   } else {
     alert("Veuillez remplir tous les champs");

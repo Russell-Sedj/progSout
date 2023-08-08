@@ -2,7 +2,7 @@
   <div class="md:flex md:justify-center md:items-center mt-11 mb-4 lg:mt-20">
     <div class="m-3 md:w-3/4 lg:w-2/4">
       <h1 class="text-gray-700 font-bold text-2xl mb-6">Profil</h1>
-      <form @submit.prevent="editStudent">
+      <form @submit.prevent="editStudent(student)">
         <div class="grid md:grid-cols-2 md:gap-6">
           <div class="relative z-0 w-full mb-8 group">
             <input
@@ -12,7 +12,7 @@
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
-              v-model="lastname"
+              v-model="student.lastname"
             />
             <label
               for="floating_last_name"
@@ -28,7 +28,7 @@
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
-              v-model="firstname"
+              v-model="student.firstname"
             />
             <label
               for="floating_first_name"
@@ -45,7 +45,7 @@
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             required
-            v-model="email"
+            v-model="student.email"
           />
           <label
             for="floating_email"
@@ -63,7 +63,7 @@
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
-              v-model="telephone"
+              v-model="student.telephone"
             />
             <label
               for="floating_phone"
@@ -79,7 +79,8 @@
               id="floating_address"
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
-              v-model="address"
+              required
+              v-model="student.address"
             />
             <label
               for="floating_address"
@@ -95,7 +96,8 @@
             id="floating_filiere"
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
-            v-model="field"
+            required
+            v-model="student.field"
           />
           <label
             for="floating_filiere"
@@ -110,7 +112,7 @@
             id="floating_subject"
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
-            v-model="subject"
+            v-model="student.subject"
           />
           <label
             for="floating_subject"
@@ -126,7 +128,7 @@
               id="floating_master"
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
-              v-model="master"
+              v-model="student.master"
             />
             <label
               for="floating_master"
@@ -141,7 +143,7 @@
               id="floating_intern_master"
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
-              v-model="intern_master"
+              v-model="student.intern_master"
             />
             <label
               for="floating_intern_master"
@@ -164,48 +166,44 @@
 
 <script setup>
 const student_list = await $fetch("/api/student/");
-const id = ref("");
-const lastname = ref("");
-const firstname = ref("");
-const email = ref("");
-const address = ref("");
-const telephone = ref("");
-const field = ref("");
-const subject = ref("");
-const master = ref("");
-const intern_master = ref("");
-const password = ref("");
+const student = ref({
+  id: student_list[0].id,
+  lastname: student_list[0].lastname,
+  firstname: student_list[0].firstname,
+  email: student_list[0].email,
+  telephone: student_list[0].telephone,
+  address: student_list[0].address,
+  field: student_list[0].field,
+  subject: student_list[0].subject,
+  master: student_list[0].master,
+  intern_master: student_list[0].intern_master,
+});
 
-id.value = student_list[0].id;
-lastname.value = student_list[0].lastname;
-firstname.value = student_list[0].firstname;
-email.value = student_list[0].email;
-address.value = student_list[0].address;
-telephone.value = student_list[0].telephone;
-field.value = student_list[0].field;
-subject.value = student_list[0].subject;
-master.value = student_list[0].master;
-intern_master.value = student_list[0].intern_master;
-
-const editStudent = async () => {
+async function editStudent(student) {
   let req = null;
-  req = await $fetch("/api/student/", {
-    method: "put",
-    body: {
-      id: id.value,
-      lastname: lastname.value,
-      firstname: firstname.value,
-      email: email.value,
-      password: password.value,
-      address: address.value,
-      telephone: telephone.value,
-      field: field.value,
-      subject: subject.value,
-      master: master.value,
-      intern_master: intern_master.value,
-    },
-  });
-};
+
+  if (
+    student.id &&
+    student.firstname &&
+    student.lastname &&
+    student.email &&
+    student.telephone &&
+    student.address &&
+    student.field
+  ) {
+    req = await $fetch("/api/student/", {
+      method: "PUT",
+      body: student,
+    });
+    if (req) {
+      alert("Profil modifié avec succès");
+    } else {
+      alert("Erreur lors de la modification du profil");
+    }
+  } else {
+    alert("Veuillez remplir tous les champs");
+  }
+}
 </script>
 
 <style scoped>

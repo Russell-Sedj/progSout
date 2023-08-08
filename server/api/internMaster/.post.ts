@@ -16,9 +16,10 @@ export default defineEventHandler(async (event) => {
     input_data.firstname &&
     input_data.lastname &&
     input_data.email &&
-    input_data.telephone
+    input_data.telephone &&
+    input_data.company_name
   ) {
-    await prisma.master
+    await prisma.internMaster
       .create({
         data: input_data,
       })

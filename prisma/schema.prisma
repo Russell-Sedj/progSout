@@ -50,12 +50,11 @@ model master {
   created_at DateTime  @default(now()) @db.DateTime(0)
   updated_at DateTime? @updatedAt
 
-  lasttname String
+  lastname  String
   firstname String
-  email     String @unique
-  telephone Int
-
-  student student[]
+  email     String    @unique
+  telephone String
+  student   student[]
 }
 
 model internMaster {
@@ -66,7 +65,7 @@ model internMaster {
   lastname     String
   firstname    String
   email        String    @unique
-  telephone    Int
+  telephone    String
   company_name String
   student      student[]
 }

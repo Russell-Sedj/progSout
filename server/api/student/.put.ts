@@ -1,3 +1,39 @@
+// import { PrismaClient } from "@prisma/client";
+// const prisma = new PrismaClient();
+
+// export default defineEventHandler(async (event) => {
+//   const body = await readBody(event);
+//   let request = null;
+
+//   const input_data: any = {};
+//   for (const key in body) {
+//     if (body.hasOwnProperty(key)) {
+//       input_data[key] = body[key];
+//     }
+//   }
+//   console.log(input_data);
+
+//   if (input_data.id) {
+//     await prisma.student
+//       .update({
+//         where: {
+//           id: input_data.id,
+//         },
+//         data: input_data,
+//       })
+//       .then((response) => {
+//         request = response;
+//       })
+//       .catch((e) => {
+//         return { message: "Internal Server Error \n" + e.message };
+//       });
+//   } else {
+//     return { message: "Bad Request: Missing ID" };
+//   }
+
+//   return request;
+// });
+
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -12,39 +48,34 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  if (body.id) {
-    request = await prisma.student.update({
-      where: {
-        id: body.id,
-      },
-      data: input_data,
-    });
+  if (
+    input_data.id &&
+    input_data.firstname &&
+    input_data.lastname &&
+    input_data.email &&
+    input_data.telephone &&
+    input_data.address &&
+    input_data.field
+  ) {
+    console.log(input_data);
+    await prisma.student
+      .update({
+        where: { id: input_data },
+        data: input_data,
+      })
+      .then((response) => {
+        request = response;
+      })
+      .catch((e) => {
+        return { message: "Internal Server Error:\n" + e.message };
+      });
   } else {
-    return createError({
-      statusCode: 400,
-      statusMessage: "Some parameters are missing",
-    });
+    return {
+      message:
+        "Bad Request: Missing nom or prenom or email or password or telephone or field",
+    };
   }
-
-  return request;
+  return {
+    request: request,
+  };
 });
-
-/* 
-const data = {};
-  for (const key in body) {
-    if (body.hasOwnProperty(key)) {
-      data[key] = body[key];
-    }
-  }
-
-  let user;
-
-  if (data.id) {
-    user = await prisma.users.update({
-      where: {
-        id: data.id,
-      },
-      data,
-    });
-  }
-   */

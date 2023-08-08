@@ -13,13 +13,17 @@ export default defineEventHandler(async (event) => {
   }
 
   if (
+    input_data.id &&
     input_data.firstname &&
     input_data.lastname &&
     input_data.email &&
-    input_data.telephone
+    input_data.telephone &&
+    input_data.company_name
   ) {
-    await prisma.master
-      .create({
+    console.log(input_data);
+    await prisma.internMaster
+      .update({
+        where: { id: input_data },
         data: input_data,
       })
       .then((response) => {
@@ -30,8 +34,7 @@ export default defineEventHandler(async (event) => {
       });
   } else {
     return {
-      message:
-        "Bad Request: Missing nom or prenom or email or password or telephone",
+      message: "Bad Request: Missing nom or prenom or email or telephone",
     };
   }
   return {
