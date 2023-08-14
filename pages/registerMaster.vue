@@ -89,12 +89,31 @@
 </template>
 
 <script setup>
+useHead({
+  title: "Inscription Maitre Memoire",
+  meta: [
+    {
+      name: "description",
+      content: "Inscription Maitre Memoire",
+    },
+  ],
+});
+
 const master = ref({
   firstname: null,
   lastname: null,
   email: null,
   telephone: null,
 });
+
+function resetMaster() {
+  master.value = {
+    firstname: null,
+    lastname: null,
+    email: null,
+    telephone: null,
+  };
+}
 
 async function addMaster(master) {
   let req = null;
@@ -106,6 +125,7 @@ async function addMaster(master) {
     });
     if (req) {
       alert("Maitre Memoire ajouté avec succès");
+      resetMaster();
     } else {
       alert("Erreur lors de l'ajout du Maitre Memoire");
     }

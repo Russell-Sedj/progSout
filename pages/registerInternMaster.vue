@@ -123,6 +123,16 @@ const internMaster = ref({
   company_name: null,
 });
 
+function resetInternMaster() {
+  internMaster.value = {
+    firstname: null,
+    lastname: null,
+    email: null,
+    telephone: null,
+    company_name: null,
+  };
+}
+
 async function addInternMaster(internMaster) {
   let req = null;
 
@@ -139,6 +149,7 @@ async function addInternMaster(internMaster) {
     });
     if (req) {
       alert("Maitre de Stage ajouté avec succès");
+      resetInternMaster();
     } else {
       alert("Erreur lors de l'ajout du Maitre de Stage");
     }

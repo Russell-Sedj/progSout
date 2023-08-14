@@ -122,6 +122,16 @@
 </template>
 
 <script setup>
+useHead({
+  title: "Inscription Etudiant",
+  meta: [
+    {
+      name: "description",
+      content: "Inscription Etudiant",
+    },
+  ],
+});
+
 const student = ref({
   firstname: null,
   lastname: null,
@@ -130,6 +140,17 @@ const student = ref({
   address: null,
   field: null,
 });
+
+function resetStudent() {
+  student.value = {
+    firstname: null,
+    lastname: null,
+    email: null,
+    telephone: null,
+    address: null,
+    field: null,
+  };
+}
 
 async function addStudent(student) {
   let req = null;
@@ -148,6 +169,7 @@ async function addStudent(student) {
     });
     if (req) {
       alert("Etudiant ajouté avec succès");
+      resetStudent();
     } else {
       alert("Erreur lors de l'ajout de l'étudiant");
     }

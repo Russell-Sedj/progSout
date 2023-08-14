@@ -7,13 +7,14 @@ CREATE TABLE `student` (
     `firstname` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
-    `telephone` INTEGER NOT NULL,
+    `telephone` VARCHAR(191) NOT NULL,
     `address` VARCHAR(191) NOT NULL,
-    `field` VARCHAR(191) NULL,
+    `field` VARCHAR(191) NOT NULL,
     `subject` VARCHAR(191) NULL,
     `presentation_date` DATETIME(3) NULL,
     `presentation_room` VARCHAR(191) NULL,
     `final_decision` VARCHAR(191) NULL,
+    `is_profil_information_complete` BOOLEAN NULL,
     `school_fees` BOOLEAN NULL,
     `is_presentation_finished` BOOLEAN NULL,
     `is_subject_validated` BOOLEAN NULL,
@@ -33,10 +34,10 @@ CREATE TABLE `master` (
     `id` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     `updated_at` DATETIME(3) NULL,
-    `lasttname` VARCHAR(191) NOT NULL,
+    `lastname` VARCHAR(191) NOT NULL,
     `firstname` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
-    `telephone` INTEGER NOT NULL,
+    `telephone` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `master_email_key`(`email`),
     PRIMARY KEY (`id`)
@@ -50,7 +51,7 @@ CREATE TABLE `internMaster` (
     `lastname` VARCHAR(191) NOT NULL,
     `firstname` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
-    `telephone` INTEGER NOT NULL,
+    `telephone` VARCHAR(191) NOT NULL,
     `company_name` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `internMaster_email_key`(`email`),
@@ -65,6 +66,7 @@ CREATE TABLE `direction` (
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `connected` VARCHAR(191) NULL,
+    `limit_date` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `direction_email_key`(`email`),
     PRIMARY KEY (`id`)
