@@ -64,3 +64,12 @@
     </div>
   </div>
 </template>
+
+<script setup>
+definePageMeta({
+  auth: {
+    unauthenticatedOnly: false,
+    navigateAuthenticatedTo: "/",
+  },
+});
+</script>
